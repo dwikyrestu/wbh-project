@@ -15,7 +15,7 @@
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
-            <div class="navbar-header">
+            <!-- <div class="navbar-header"> -->
                 <div class="top-left-part">
                     <!-- Logo -->
                     <a class="logo" href="index.html">
@@ -24,7 +24,7 @@
                         <!--This is dark logo text--><img src="<?php echo base_url();?>asset/plugins/images/house.png" alt="home" class="dark-logo" /><!--This is light logo text--><img src="<?php echo base_url();?>asset/plugins/images/house.png" alt="home" class="light-logo" width="220" height="50"/>
                      </span> </a>
                 </div>
-            </div>
+            <!-- </div> -->
             <!-- /.navbar-header -->
             <!-- /.navbar-top-links -->
             <!-- /.navbar-static-side -->
