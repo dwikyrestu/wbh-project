@@ -1,11 +1,11 @@
-
 <div class="container">
     <!-- Page Heading -->
         <div class="row">
-            <h1 class="page-header">Data Bulan </h1>
+            <h1 class="page-header">Data Minggu </h1>
         </div>
+        <input type="hidden" name="kodebul" id="bulkode" value="<?php echo $id; ?>">
         <div class="row">
-          <div class="pull-left"><a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalaAdd"><span class="fa fa-plus"></span> Tambah Bulan Baru</a></div>
+          <div class="pull-left"><a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalaAdd"><span class="fa fa-plus"></span> Tambah Minggu Baru</a></div>
         </div><br/>
     <div class="row">
         <div id="reload">
@@ -13,8 +13,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>Target</th>
+                    <th>Nama Minggu</th>
+                    <th>Omset</th>
                     <th style="text-align: right;">Aksi</th>
                 </tr>
             </thead>
@@ -26,38 +26,59 @@
     </div>
 </div>
 
+
+<div class="container" id="childMin" style="display:none;">
+    <!-- Page Heading -->
+        <div class="row">
+            <h1 class="page-header" id="txt_id">Data Minggu </h1>
+        </div>
+        <input type="hidden" name="kodemin" id="minkode" value="">
+        <div class="row">
+          <div class="pull-left"><a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ModalaAdd"><span class="fa fa-plus"></span> Tambah Minggu Baru</a></div>
+        </div><br/>
+    <div class="row">
+        <div id="reload">
+        <table class="table table-striped" id="mydata2">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                    <th>Person</th>
+                    <th style="text-align: right;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="show_data2">
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+
         <!-- MODAL ADD -->
         <div class="modal" id="ModalaAdd" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 class="modal-title" id="myModalLabel">Tambah Bulan</h3>
+                <h3 class="modal-title" id="myModalLabel">Tambah Minggu</h3>
             </div>
             <form class="form-horizontal">
-                <div class="modal-body">
-                  <div class="alert alert-info"><p>Silahkan Masukkan bulan <?php echo date('F'); ?>, Anda hanya dapat memasukkan data bulan ini !!!</p></div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" >Bulan</label>
+                <div class="modal-body"><div class="form-group">
+                        <label class="control-label col-xs-3" >Nama Minggu</label>
                         <div class="col-xs-9">
-                            <input name="bulan" id="nm_bulan" class="form-control" type="text" placeholder="Bulan" style="width:335px;" required>
+                            <input name="minggu" id="nm_minggu" class="form-control" type="text" placeholder="Nama Minggu" style="width:335px;" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-xs-3" >Tahun</label>
+                        <label class="control-label col-xs-3" >Omset</label>
                         <div class="col-xs-9">
-                            <input name="tahun" id="nm_tahun" class="form-control" type="number" placeholder="Tahun" style="width:335px;" required>
+                            <input name="omset" id="nm_omset" class="form-control" type="number" placeholder="000000000" style="width:335px;" required>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" >Target</label>
-                        <div class="col-xs-9">
-                            <input name="target" id="nm_target" class="form-control" type="number" placeholder="Target" style="width:335px;" required>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="modal-footer">
@@ -82,7 +103,7 @@
                     <form class="form-horizontal">
                     <div class="modal-body">
 
-                            <input type="hidden" name="kode" id="textkode" value="">
+                            <input type="hidden" name="kodehps" id="textkodehps" value="">
                             <div class="alert alert-warning"><p>Apakah Anda yakin mau mengapus data bulan ini?</p></div>
                             <div class="alert alert-info"><p>Pastikan anda sebelumnya telah menghapus data penjualan dan omset per minggu dari bulan ini !!!</p></div>
 
@@ -105,12 +126,14 @@
         tampil_data_barang();   //pemanggilan fungsi tampil barang.
 
         $('#mydata').dataTable();
+        $('#mydata2').dataTable();
 
         //fungsi tampil barang
         function tampil_data_barang(){
+          var idbul=$('#bulkode').val();
             $.ajax({
                 type  : 'ajax',
-                url   : '<?php echo base_url()?>/penjualan/data_bulan',
+                url   : '<?php echo base_url()?>/minggu/data_minggu/'+idbul,
                 async : false,
                 dataType : 'json',
                 success : function(data){
@@ -120,11 +143,11 @@
                     for(i=0; i<data.length; i++){
                         html += '<tr>'+
                                 '<td>'+no+'</td>'+
-                                '<td>'+data[i].nama_bulan+'</td>'+
-                                '<td>'+data[i].target+'</td>'+
+                                '<td>'+data[i].nama_minggu+'</td>'+
+                                '<td>'+data[i].omset_minggu+'</td>'+
                                 '<td style="text-align:right;">'+
-                                    '<a href="minggu/detail/'+data[i].id_bulan+'" class="btn btn-info btn-sm" data="'+data[i].id_bulan+'">Detail Minggu</a>'+' '+
-                                    '<a href="javascript:;" class="btn btn-danger btn-sm item_hapus" data="'+data[i].id_bulan+'">Hapus</a>'+
+                                    '<a href="javascript:;" class="btn btn-success btn-sm item_det" id="'+data[i].id_minggu+'" data="'+data[i].nama_minggu+'">Detail Minggu</a>'+' '+
+                                    '<a href="javascript:;" class="btn btn-danger btn-sm item_hapus" data="'+data[i].id_minggu+'">Hapus</a>'+
                                 '</td>'+
                                 '</tr>';
                                 no++;
@@ -135,48 +158,67 @@
             });
         }
 
-        //GET UPDATE
-        // $('#show_data').on('click','.item_edit',function(){
-        //     var id=$(this).attr('data');
-        //     $.ajax({
-        //         type : "GET",
-        //         url  : "<?php //echo base_url('index.php/barang/get_barang')?>",
-        //         dataType : "JSON",
-        //         data : {id:id},
-        //         success: function(data){
-        //             $.each(data,function(barang_kode, barang_nama, barang_harga){
-        //                 $('#ModalaEdit').modal('show');
-        //                 $('[name="kobar_edit"]').val(data.barang_kode);
-        //                 $('[name="nabar_edit"]').val(data.barang_nama);
-        //                 $('[name="harga_edit"]').val(data.barang_harga);
-        //             });
-        //         }
-        //     });
-        //     return false;
-        // });
+        //function tampil data penjualan perminggu
+        function tampil_data_minggu(){
+          var idmin=$('#kodemin').val();
+            $.ajax({
+                type  : 'ajax',
+                url   : '<?php echo base_url()?>/minggu/data_perminggu/'+idmin,
+                async : false,
+                dataType : 'json',
+                success : function(data){
+                    var html = '';
+                    var i;
+                    var no=1;
+                    for(i=0; i<data.length; i++){
+                        html += '<tr>'+
+                                '<td>'+no+'</td>'+
+                                '<td>'+data[i].nama_minggu+'</td>'+
+                                '<td>'+data[i].omset_minggu+'</td>'+
+                                '<td>'+data[i].omset_minggu+'</td>'+
+                                '<td>'+data[i].omset_minggu+'</td>'+
+                                '<td style="text-align:right;">'+
+                                    '<a href="javascript:;" class="btn btn-success btn-sm item_det" id="'+data[i].id_minggu+'" data="'+data[i].nama_minggu+'">Detail Minggu</a>'+' '+
+                                    '<a href="javascript:;" class="btn btn-danger btn-sm item_hapus" data="'+data[i].id_minggu+'">Hapus</a>'+
+                                '</td>'+
+                                '</tr>';
+                                no++;
+                    }
+                    $('#show_data2').html(html);
+                }
 
+            });
+        }
 
         //GET HAPUS
         $('#show_data').on('click','.item_hapus',function(){
             var id=$(this).attr('data');
             $('#ModalHapus').modal('show');
-            $('[name="kode"]').val(id);
+            $('[name="kodehps"]').val(id);
+        });
+
+        $('#show_data').on('click','.item_det',function(){
+            var nama=$(this).attr('data');
+            var id=$(this).attr('id');
+            document.getElementById('childMin').style.display = "block";
+            document.getElementById("txt_id").innerHTML = "Data "+nama;
+            $('[name="kodemin"]').val(id);
+            tampil_data_minggu();
         });
 
         //Simpan Barang
         $('#btn_simpan').on('click',function(){
-            var bulan=$('#nm_bulan').val();
-            var tahun=$('#nm_tahun').val();
-            var target=$('#nm_target').val();
+            var idbulan=$('#bulkode').val();
+            var minggu=$('#nm_minggu').val();
+            var omset=$('#nm_omset').val();
             $.ajax({
                 type : "POST",
-                url  : "<?php echo base_url('/penjualan/simpan_bulan')?>",
+                url  : "<?php echo base_url('/minggu/simpan_minggu')?>",
                 dataType : "JSON",
-                data : {bulan:bulan,tahun:tahun,target:target,},
+                data : {idbulan:idbulan,minggu:minggu,omset:omset,},
                 success: function(data){
-                    $('[name="bulan"]').val("");
-                    $('[name="tahun"]').val("");
-                    $('[name="target"]').val("");
+                    $('[name="minggu"]').val("");
+                    $('[name="omset"]').val("");
                     $('#ModalaAdd').modal('hide');
                     tampil_data_barang();
                     $('body').removeClass().removeAttr('style');$('.modal-backdrop').remove();
@@ -185,35 +227,14 @@
             return false;
         });
 
-        //Update Barang
-        // $('#btn_update').on('click',function(){
-        //     var kobar=$('#kode_barang2').val();
-        //     var nabar=$('#nama_barang2').val();
-        //     var harga=$('#harga2').val();
-        //     $.ajax({
-        //         type : "POST",
-        //         url  : "<?php //echo base_url('index.php/barang/update_barang')?>",
-        //         dataType : "JSON",
-        //         data : {kobar:kobar , nabar:nabar, harga:harga},
-        //         success: function(data){
-        //             $('[name="kobar_edit"]').val("");
-        //             $('[name="nabar_edit"]').val("");
-        //             $('[name="harga_edit"]').val("");
-        //             $('#ModalaEdit').modal('hide');
-        //             tampil_data_barang();
-        //         }
-        //     });
-        //     return false;
-        // });
-
         //Hapus Barang
         $('#btn_hapus').on('click',function(){
-            var idbul=$('#textkode').val();
+            var idmin=$('#textkodehps').val();
             $.ajax({
             type : "POST",
-            url  : "<?php echo base_url('penjualan/hapus_bulan')?>",
+            url  : "<?php echo base_url('minggu/hapus_minggu')?>",
             dataType : "JSON",
-                    data : {idbul: idbul},
+            data : {idmin: idmin},
                     success: function(data){
                             $('#ModalHapus').modal('hide');
                             tampil_data_barang();

@@ -1,14 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Bulan_m extends CI_Model {
+class Minggu_m extends CI_Model {
 
-  function bulan_list(){
-        $hasil=$this->db->query("SELECT * FROM bulan");
+  function minggu_list($id){
+        $hasil=$this->db->query("SELECT * FROM minggu where id_bulan='$id'");
         return $hasil->result();
     }
 
-    function simpan_bulan($id,$nabul,$target){
-        $hasil=$this->db->query("INSERT INTO bulan (id_bulan,nama_bulan,target)VALUES('$id','$nabul','$target')");
+    function minggu_detlist($id){
+          $hasil=$this->db->query("SELECT * FROM detail_penjualan where id_minggu='$id'");
+          return $hasil->result();
+      }
+
+
+    function simpan_minggu($id,$minggu,$omset){
+        $hasil=$this->db->query("INSERT INTO minggu (id_bulan,nama_minggu,omset_minggu)VALUES('$id','$minggu','$omset')");
         return $hasil;
     }
 
@@ -31,8 +37,8 @@ class Bulan_m extends CI_Model {
         return $hasil;
     }
 
-    function hapus_bulan($idbul){
-        $hasil=$this->db->query("DELETE FROM bulan WHERE id_bulan='$idbul'");
+    function hapus_minggu($idbul){
+        $hasil=$this->db->query("DELETE FROM minggu WHERE id_minggu='$idbul'");
         return $hasil;
     }
 

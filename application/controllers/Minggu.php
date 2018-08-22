@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Penjualan extends CI_Controller {
+class Minggu extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -21,35 +21,39 @@ class Penjualan extends CI_Controller {
 
   public function __construct() {
  		parent::__construct();
-    $this->load->model('Bulan_m');
+    $this->load->model('Minggu_m');
  	}
 
-	public function index(){
+	public function detail($id){
     $data = array(
+      'id' => $id,
 			'title'=> 'Wardah Beauty House Surabaya',
-			'isi' => 'penjualan/penjualan'
+			'isi' => 'penjualan/minggu'
 		);
     $this->load->view('layout/wrapper', $data);
 	 }
 
-    function data_bulan(){
-        $data=$this->Bulan_m->bulan_list();
+    function data_minggu($id){
+        $data=$this->Minggu_m->minggu_list($id);
         echo json_encode($data);
     }
 
-    function get_bulan(){
+    function data_perminggu($id){
+        $data=$this->Minggu_m->minggu_detlist($id);
+        echo json_encode($data);
+    }
+
+    function get_minggu(){
         $idbul=$this->input->get('id');
-        $data=$this->Bulan_m->get_bulan_by_kode($idbul);
+        $data=$this->Minggu_m->get_minggu_by_kode($idbul);
         echo json_encode($data);
     }
 
-    function simpan_bulan(){
-        $id = date('mY');
-        $bulan=$this->input->post('bulan');
-        $tahun=$this->input->post('tahun');
-        $target=$this->input->post('target');
-        $nama = $bulan." ".$tahun;
-        $data=$this->Bulan_m->simpan_bulan($id,$nama,$target);
+    function simpan_minggu(){
+        $idbulan = $this->input->post('idbulan');
+        $minggu = $this->input->post('minggu');
+        $omset = $this->input->post('omset');
+        $data=$this->Minggu_m->simpan_minggu($idbulan,$minggu,$omset);
         echo json_encode($data);
     }
 
@@ -57,13 +61,13 @@ class Penjualan extends CI_Controller {
     //     $kobar=$this->input->post('kobar');
     //     $nabar=$this->input->post('nabar');
     //     $harga=$this->input->post('harga');
-    //     $data=$this->bulan_m->update_barang($kobar,$nabar,$harga);
+    //     $data=$this->Minggu_m->update_barang($kobar,$nabar,$harga);
     //     echo json_encode($data);
     // }
 
-    function hapus_bulan(){
-        $idbul=$this->input->post('idbul');
-        $data=$this->Bulan_m->hapus_bulan($idbul);
+    function hapus_minggu(){
+        $idmin=$this->input->post('idmin');
+        $data=$this->Minggu_m->hapus_minggu($idmin);
         echo json_encode($data);
     }
 
